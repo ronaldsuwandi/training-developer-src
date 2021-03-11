@@ -3,6 +3,7 @@
     "name": "PositionValue",
     "fields": [
         {"name": "latitude", "type": "double"},
-        {"name": "longitude", "type": "double"}
+        {"name": "longitude", "type": "double"},
+        {"name": "altitude", "type": "double"}
     ]
 }

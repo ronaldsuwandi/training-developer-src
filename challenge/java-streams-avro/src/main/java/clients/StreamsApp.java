@@ -2,27 +2,20 @@ package clients;
 
 import clients.avro.PositionDistance;
 import clients.avro.PositionValue;
-
 import io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde;
-
-import java.util.Collections;
-import java.util.Map;
-import java.util.Properties;
-import java.util.concurrent.CountDownLatch;
-
 import net.sf.geographiclib.Geodesic;
-
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.Topology;
-import org.apache.kafka.streams.kstream.Consumed;
-import org.apache.kafka.streams.kstream.KStream;
-import org.apache.kafka.streams.kstream.KTable;
-import org.apache.kafka.streams.kstream.Materialized;
-import org.apache.kafka.streams.kstream.Produced;
+import org.apache.kafka.streams.kstream.*;
+
+import java.util.Collections;
+import java.util.Map;
+import java.util.Properties;
+import java.util.concurrent.CountDownLatch;
 
 public class StreamsApp {
 
@@ -86,7 +79,7 @@ public class StreamsApp {
         positionValueSerde));
 
 
-    // We do a groupByKey on the ‘positions’ stream which returns an 
+    // We do a groupByKey on the positions stream which returns an
     // intermediate KGroupedStream, we then aggregate to return a KTable.
     final KTable<String, PositionDistance> reduced = positions.groupByKey().aggregate(
         () -> null,
